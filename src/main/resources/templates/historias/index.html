@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Criador de Histórias</title>
+    <link rel="stylesheet" href="/css/historias.css" th:href="@{/css/historias.css}">
+</head>
+<body>
+<main>
+    <h1>Criador de Histórias</h1>
+
+    <form id="editor" data-base-url="/historias" data-id=""
+          th:attr="data-base-url=@{/historias},data-id=${historia != null ? historia.id : ''}">
+        <label for="personagens">Personagens:</label>
+        <input id="personagens" name="personagens" type="text" maxlength="500" required
+               placeholder="Ex.: Luna, uma cartógrafa, e Bento, seu cão"
+               th:value="${historia != null ? historia.personagens : ''}">
+
+        <label for="contexto">Mundo, ideia e referências:</label>
+        <textarea id="contexto" name="contexto" rows="6" maxlength="8000" required
+                  placeholder="Descreva o mundo, o que deve acontecer e no que a história pode ser baseada..."
+                  th:text="${historia != null ? historia.contexto : ''}"></textarea>
+        <p class="ajuda" id="contador-ideia">0 / 8.000</p>
+
+        <div class="acoes">
+            <button type="button" id="melhorar">Melhorar ideia</button>
+            <button type="button" id="gerar">Gerar história</button>
+            <button type="button" id="desfazer" disabled>Desfazer</button>
+            <button type="button" id="refazer" disabled>Refazer</button>
+        </div>
+
+        <div class="area-mensagem">
+            <div id="progresso-ia" class="progresso-ia" role="progressbar"
+                 aria-label="Melhorando ideia" hidden><span></span></div>
+            <span id="carregando" aria-hidden="true" hidden>Aguarde...</span>
+            <p id="mensagem" role="status" aria-live="polite"></p>
+        </div>
+
+        <hr>
+        <h2>História</h2>
+        <label for="titulo">Título:</label>
+        <input id="titulo" name="titulo" type="text" maxlength="200" required
+               placeholder="Título da história"
+               th:value="${historia != null ? historia.titulo : ''}">
+
+        <label for="texto">Texto:</label>
+        <textarea id="texto" name="texto" rows="12" maxlength="60000" required
+                  placeholder="Sua história"
+                  th:text="${historia != null ? historia.texto : ''}"></textarea>
+        <p class="ajuda" id="contador-palavras">0 palavras</p>
+        <div class="acoes">
+            <button type="button" id="salvar" disabled>Salvar história</button>
+            <span id="estado-salvo" class="ajuda">Rascunho</span>
+        </div>
+    </form>
+
+    <hr>
+    <section aria-labelledby="titulo-biblioteca">
+        <h2 id="titulo-biblioteca">Histórias salvas</h2>
+        <p><a href="/" th:href="@{/}">Nova história</a></p>
+        <p id="biblioteca-vazia" th:if="${#lists.isEmpty(historias)}">Nenhuma história salva ainda.</p>
+        <ul id="historias-salvas">
+            <li th:each="item : ${historias}" th:attr="data-historia-id=${item.id}">
+                <a th:href="@{/historias/{id}(id=${item.id})}"
+                   th:classappend="${historia != null and historia.id == item.id ? 'atual' : ''}"
+                   th:text="${item.titulo}">Título</a>
+                <span class="ajuda" th:text="${' — Salva em ' + #temporals.format(item.dataAtualizacao, 'dd/MM/yyyy HH:mm')}">Data</span>
+            </li>
+        </ul>
+    </section>
+    <noscript><p class="erro">Ative o JavaScript para gerar histórias e usar o editor.</p></noscript>
+</main>
+<script type="module" src="/js/historias.js" th:src="@{/js/historias.js}"></script>
+</body>
+</html>

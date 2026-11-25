@@ -1,0 +1,55 @@
+body {
+    max-width: 800px;
+    margin: 24px;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #222;
+    background: white;
+}
+h1 { font-size: 28px; }
+h2 { font-size: 21px; }
+label { display: block; margin: 16px 0 6px; font-weight: bold; }
+input, textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    font: inherit;
+}
+textarea { resize: vertical; }
+button { padding: 5px 10px; font: inherit; cursor: pointer; }
+button:disabled { cursor: default; }
+.acoes { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.ajuda { margin: 5px 0 12px; font-size: 13px; color: #666; }
+.acoes .ajuda { margin: 0; }
+.area-mensagem { font-size: 14px; }
+.progresso-ia {
+    height: 6px;
+    margin-top: 14px;
+    overflow: hidden;
+    border-radius: 3px;
+    background: #e5e7eb;
+}
+.progresso-ia span {
+    display: block;
+    width: 40%;
+    height: 100%;
+    border-radius: inherit;
+    background: #2563eb;
+    animation: progresso-ia 1.4s ease-in-out infinite;
+}
+@keyframes progresso-ia {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(350%); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .progresso-ia span { animation: none; margin-left: 30%; }
+}
+#mensagem:empty { display: none; }
+.erro { color: #a32020; }
+hr { margin: 24px 0; border: 0; border-top: 1px solid #ccc; }
+li { margin: 8px 0; overflow-wrap: anywhere; }
+.atual { font-weight: bold; }
+@media (max-width: 520px) { body { margin: 16px; } }
